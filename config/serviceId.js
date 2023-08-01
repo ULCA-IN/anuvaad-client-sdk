@@ -46,6 +46,5 @@ const serviceId = async (taskType, srcLang, targetLang) => {
     }
 };
 
-// serviceId('translation', 'en', 'hi')
 
 export default serviceId;

@@ -1,47 +1,19 @@
 import axios from "axios";
+import { getModelurl } from "./config.js";
+import { headers } from "./verification.js";
+import getTasktypeconfig from "./tasktypeConfig.js"
 
-//for getting the service id dynamically
-//working 
+
 const serviceId = async (taskType, srcLang, targetLang) => {
     try {
-        const url = 'https://meity-auth.ulcacontrib.org/ulca/apis/v0/model/getModelsPipeline'
-        const headers = {
-            'userId': '9083a5240ddc473ba1e706b7df47c7a0',
-            'ulcaApiKey': '25e21b8af7-4d7a-4d29-89d4-6d7a3e745e12'
-        };
-        const tasktype_config = [{
-            "taskType": "asr",
-            "config": {
-                "language": {
-                    "sourceLanguage": srcLang
-                }
-            }
-        },
-        {
-            "taskType": 'translation',
-            "config": {
-                "language": {
-                    "sourceLanguage": srcLang,
-                    "targetLanguage": targetLang
-                }
-            }
-        },
-        {
-            "taskType": "tts",
-            "config": {
-                "language": {
-                    "sourceLanguage": srcLang
-                }
-            }
-        }
-        ]
+
         let pipelineTasks_body = '';
         if (taskType == 'asr') {
-            pipelineTasks_body = tasktype_config[0]
+            pipelineTasks_body = getTasktypeconfig(srcLang)[0]
         } else if (taskType == 'translation') {
-            pipelineTasks_body = tasktype_config[1]
+            pipelineTasks_body = getTasktypeconfig(srcLang, targetLang)[1]
         } else if (taskType == 'tts') {
-            pipelineTasks_body = tasktype_config[2]
+            pipelineTasks_body = getTasktypeconfig(srcLang)[2]
         }
 
         const payload = {
@@ -52,15 +24,17 @@ const serviceId = async (taskType, srcLang, targetLang) => {
                 "pipelineId": "64392f96daac500b55c543cd"
             }
         }
-        return await axios.post(url, payload, { headers }).then(res => {
+        return await axios.post(getModelurl, payload, { headers: headers }).then(res => {
             // console.log("service id output", res.data.pipelineResponseConfig[0].config[0].serviceId)
+            // console.log("service id output", res.data.pipelineResponseConfig[0])
+
             return res.data.pipelineResponseConfig[0].config[0].serviceId
         })
 
     } catch (error) {
         if (error.response) {
-            // console.log('Status Code:', error.response.status);
-            // console.log('Error Data:', error.response.data);
+            console.log('Status Code:', error.response.status);
+            console.log('Error Data:', error.response.data);
             // console.log('Error Message:', error.response.data.message);
             return error.response.data.message
         } else {
@@ -72,6 +46,6 @@ const serviceId = async (taskType, srcLang, targetLang) => {
     }
 };
 
-
+// serviceId('translation', 'en', 'hi')
 
 export default serviceId;

@@ -26,11 +26,11 @@ yarn add bhashini-translation
 ```shell
 import bhashini from 'bhashini-translation'
 ```
-3. set your api key to initialize library, to get [see](#get-authentication-details)
+3. set your userid, UlcaApiKey, InferenceApiKey to initialize library, to get [see](#get-authentication-details)
  - Step 1: Go to entry point of your project
  - Step 2: call 
  ```shell
- bhashini.auth("your_api_key")
+ bhashini.auth("userid", "UlcaApiKey", "InferenceApiKey")
  ```
 4. Now you are ready to use the features [I will add example here later]
 
@@ -42,8 +42,8 @@ Signup [here](https://bhashini.gov.in/ulca/user/register) to get authentication 
    - Step 4: Open the "My Profile" section
    - Step 5: create the API Key using Generate Button under My Profile section. 
     [App name should use lowercase words and underscores.]  
-   - Step 6: press generate in api key to get authorization token
-   - Step 7: now copy 	`Inference API Key Value` for `Meity` and pass as argument in `bhashini.auth("your_api_key")` function  
+   - Step 6: press generate in api key to get credentials
+   - Step 7: now copy `userid`, `UlcaApiKey`, and 	`Inference API Key Value` for `Meity` and pass as argument in `bhashini.auth("userid", "UlcaApiKey", "InferenceApiKey")` function  
  
 # Code Structure
 
@@ -51,10 +51,17 @@ Signup [here](https://bhashini.gov.in/ulca/user/register) to get authentication 
 bhashini-translation-library/
 ├── package.json
 ├── index.js
+├── README.md
 ├── configs/
-│   ├── serviceId.js
+│   ├── config.js
+│   ├── payload.js
+│   ├── pipelineConfig.js
+│   ├── tasktypeConfig.js
 │   └── verification.js
 ├── src/
+│   ├── Utils
+│   │    ├── audioUri.js
+│   │    └── baseApi.js
 │   ├── asr.js
 │   ├── nmt.js
 │   ├── tts.js
@@ -67,16 +74,22 @@ bhashini-translation-library/
 
 - **`package.json`**: Contains metadata and configuration for npm library, containing  "name": "bhashini-translation" 
 - **`index.js`**: The main entry point for your library, where all functionalities are exported.
-- **`config.js`**: The environment file storing credentials and other sensitive data for bhashini api. 
 
 ## Configuration Folder:
 
 - **`configs/`**: This directory contains configuration-related files.
-  - **`serviceId.js`**: A file containing service IDs needed to interact with services provided by the Bhashini API. This file is used to fetch service IDs dynamically during runtime to talk to the Bhashini API.
-
+- **`config.js`**: Contains urls for the library.
+  - **`payload.js`**: Handles payload related configurations.
+  - **`pipelineConfig.js`**: Handles configurations related to the pipeline.
+  - **`tasktypeConfig.js`**: Contains configurations for different task types.
+  - **`verification.js`**: Handles verification and authentication configurations.
 ## Source Code Directory:
 
 - **`src/`**: This directory contains the source code of the library.
+  - **`Utils/`**: Utility functions are placed inside this directory.
+    - **`audioUri.js`**: A utility function that handles audio URIs.
+    - **`baseApi.js`**: A base class that provides a common structure for API requests.
+
   - **`asr.js`**: Contains the code for Automatic Speech Recognition (ASR) functionality.
   - **`nmt.js`**: Contains the code for Neural Machine Translation (NMT) functionality.
   - **`tts.js`**: Contains the code for Text-to-Speech (TTS) functionality.
@@ -112,11 +125,13 @@ bhashini.nmt('sourceLang',"targetLang", "Text")
 ```
 ## TTS: Text to Speech
 **converts written text into spoken words**   
-The TTS interface allows users to convert text into natural-sounding speech, making it useful for applications that require generating speech output.  
-**input**: source language, Text  
+The TTS interface allows users to convert text into natural-sounding speech with the option to choose different voices, making it useful for applications that require generating speech output.  
+- If gender is not passed, the default option will be used.     
+
+**input**: source language, Text, gender (male or female)  
 **output**: Audio content in Base64
 ```js
-bhashini.tts('sourceLang',"Text")
+bhashini.tts('sourceLang',"Text", "gender")
 ```
 ## ASR + NMT: Speech to Text Translation
  **speech-to-text transcription in the target language**   
@@ -128,17 +143,21 @@ bhashini.asr_nmt('sourceLang', "targetLang", "Base64")
 ```
 ## NMT + TTS: Text Translation to Speech
 **Translates written text to another language and generates audio content in base64**  
-This interface enables users to translate text and then convert it to speech, making it suitable for applications that require translated speech output.  
-**input**: source language,targetLang, Text  
+This interface enables users to translate text and then convert it to speech with the option to choose different voices,, making it suitable for applications that require translated speech output. 
+- If gender is not passed, the default option will be used.    
+      
+**input**: source language,targetLang, Text, gender (male or female)  
 **output**: translated text
 ```js
-bhashini.nmt_tts('sourceLang', "targetLang", "Text")
+bhashini.nmt_tts('sourceLang', "targetLang", "Text", "gender")
 ```
 ## ASR + NMT + TTS: Speech to Speech Translation
 **Converts spoken language to another Indic spoken language**    
-This comprehensive interface provides the ability to perform speech recognition, translation, and text-to-speech conversion in one call, catering to complex language processing needs.   
-**input**: source language, target language, audioContent in base64 format   
+This comprehensive interface provides the ability to perform speech recognition, translation, and text-to-speech conversion in one call supporting voice selection, catering to complex language processing needs.   
+- If gender is not passed, the default option will be used.    
+  
+**input**: source language, target language, audioContent in base64 format, gender (male or female)   
 **output**: audio content in base64
 ```js
-bhashini.asr_nmt_tts('sourceLang', "targetLang", "Base64")
+bhashini.asr_nmt_tts('sourceLang', "targetLang", "Base64", "gender")
 ```

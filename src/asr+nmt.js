@@ -1,24 +1,11 @@
-import serviceId from "../config/serviceId.js";
 import BaseApi from "./utils/baseApi.js";
-import pipelineConfig from "../config/pipelineConfig.js";
+import { asr_nmt_payload } from "../config/payload.js";
 
 const api = new BaseApi()
 
 async function asr_nmt(sourceLang, targetLang, base64) {
 
-    const payload = {
-        "pipelineTasks": [
-            await pipelineConfig('asr', sourceLang),
-            await pipelineConfig('translation', sourceLang, targetLang)
-        ],
-        "inputData": {
-            "audio": [
-                {
-                    "audioContent": base64
-                }
-            ]
-        }
-    }
+    const payload = await asr_nmt_payload(sourceLang, targetLang, base64)
 
     try {
         return await api.post(payload);

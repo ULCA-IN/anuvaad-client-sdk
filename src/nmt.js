@@ -1,24 +1,11 @@
-import pipelineConfig from "../config/pipelineConfig.js";
-import serviceId from "../config/serviceId.js";
+import { nmt_payload } from "../config/payload.js";
 import BaseApi from "./utils/baseApi.js";
 
 const api = new BaseApi;
 
 async function nmt(sourceLang, targetLang, sourceText) {
 
-    const payload = {
-        "pipelineTasks": [
-            await pipelineConfig('translation', sourceLang, targetLang)
-
-        ],
-        "inputData": {
-            "input": [
-                {
-                    "source": sourceText
-                }
-            ]
-        }
-    }
+    const payload = await nmt_payload(sourceLang, targetLang, sourceText);
 
     try {
         return await api.post(payload);

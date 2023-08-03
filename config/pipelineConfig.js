@@ -3,7 +3,6 @@ import { getModelurl } from "./config.js";
 import { headers } from "./verification.js";
 import getTasktypeconfig from "./tasktypeConfig.js"
 
-
 const pipelineConfig = async (taskType, srcLang, targetLang) => {
     try {
 
@@ -24,20 +23,16 @@ const pipelineConfig = async (taskType, srcLang, targetLang) => {
                 "pipelineId": "64392f96daac500b55c543cd"
             }
         }
-        // let pipelinebody = {
-        //     "taskType": taskType,
-        // }
+
         return await axios.post(getModelurl, payload, { headers: headers }).then(res => {
-            // console.log("pipelineConfig output", res.data.pipelineResponseConfig[0].config[0])
             let pipelinebody = { "taskType": taskType, "config": { ...res.data.pipelineResponseConfig[0].config[0] } }
-            console.log('pipeline body: ', pipelinebody)
             return pipelinebody
         })
 
     } catch (error) {
         if (error.response) {
-            console.log('Status Code:', error.response.status);
-            console.log('Error Data:', error.response.data);
+            // console.log('Status Code:', error.response.status);
+            // console.log('Error Data:', error.response.data);
             // console.log('Error Message:', error.response.data.message);
             return error.response.data.message
         } else {
@@ -48,6 +43,5 @@ const pipelineConfig = async (taskType, srcLang, targetLang) => {
 
     }
 };
-
 
 export default pipelineConfig;

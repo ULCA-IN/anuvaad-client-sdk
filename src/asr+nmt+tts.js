@@ -1,35 +1,11 @@
-import serviceId from "../config/serviceId.js";
 import BaseApi from "./utils/baseApi.js";
-import pipelineConfig from "../config/pipelineConfig.js";
+import { asr_nmt_tts_payload } from "../config/payload.js";
 
 const api = new BaseApi()
 
-async function asr_nmt_tts(sourceLang, targetLang, base64) {
+async function asr_nmt_tts(sourceLang, targetLang, base64, gender) {
 
-    const payload = {
-        "pipelineTasks": [
-            await pipelineConfig('asr', sourceLang),
-            await pipelineConfig('translation', sourceLang, targetLang),
-            {
-                "taskType": "tts",
-                "config": {
-                    "language": {
-                        "sourceLanguage": targetLang
-                    },
-                    "serviceId": await serviceId("tts", targetLang),
-                    "gender": "female",
-                    "samplingRate": 8000
-                }
-            }
-        ],
-        "inputData": {
-            "audio": [
-                {
-                    "audioContent": base64
-                }
-            ]
-        }
-    }
+    const payload = await asr_nmt_tts_payload(sourceLang, targetLang, base64, gender);
 
     try {
         return await api.post(payload);

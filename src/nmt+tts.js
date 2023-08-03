@@ -1,32 +1,14 @@
-import serviceId from "../config/serviceId.js";
-import pipelineConfig from "../config/pipelineConfig.js";
+import BaseApi from "./utils/baseApi.js";
+import { nmt_tts_payload } from "../config/payload.js";
 
 
-async function nmt_tts(sourceLang, targetLang, sourceText) {
+const api = new BaseApi
 
-    const payload = {
-        "pipelineTasks": [
-            await pipelineConfig('translation', sourceLang, targetLang),
-            {
-                "taskType": "tts",
-                "config": {
-                    "language": {
-                        "sourceLanguage": targetLang
-                    },
-                    "serviceId": await serviceId('tts', targetLang),
-                    "gender": "female",
-                    "samplingRate": 8000
-                }
-            }
-        ],
-        "inputData": {
-            "input": [
-                {
-                    "source": sourceText
-                }
-            ]
-        }
-    }
+async function nmt_tts(sourceLang, targetLang, sourceText, gender) {   // default is gender[0] --> generally female
+
+
+    const payload = await nmt_tts_payload(sourceLang, targetLang, sourceText)
+    console.log("payload: ", payload)
 
     try {
         return await api.post(payload);

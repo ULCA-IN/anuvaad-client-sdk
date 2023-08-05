@@ -8,7 +8,8 @@ async function nmt(sourceLang, targetLang, sourceText) {
     const payload = await nmt_payload(sourceLang, targetLang, sourceText);
 
     try {
-        return await api.post(payload);
+        const response = await api.post(payload);
+        return response.data.pipelineResponse[0].output[0].target
     } catch (error) {
         console.log('error in response', error)
     }

@@ -8,7 +8,8 @@ async function asr(sourceLang, base64) {
     const payload = await asr_payload(sourceLang, base64)
 
     try {
-        return await api.post(payload);
+        const res = await api.post(payload)
+        return res.data.pipelineResponse[0].output[0].source;
 
     } catch (error) {
         console.log('error in response', error)

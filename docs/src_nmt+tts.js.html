@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/nmt+tts.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BaseApi.html">BaseApi</a><ul class='methods'><li data-type='method'><a href="BaseApi.html#post">post</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-Task-Type.html">Task-Type</a><ul class='methods'><li data-type='method'><a href="module-Task-Type.html#~asr">asr</a></li><li data-type='method'><a href="module-Task-Type.html#~asr_nmt">asr_nmt</a></li><li data-type='method'><a href="module-Task-Type.html#~asr_nmt_tts">asr_nmt_tts</a></li><li data-type='method'><a href="module-Task-Type.html#~nmt">nmt</a></li><li data-type='method'><a href="module-Task-Type.html#~nmt_tts">nmt_tts</a></li><li data-type='method'><a href="module-Task-Type.html#~tts">tts</a></li></ul></li><li></li><li></li><li></li><li></li><li></li><li><a href="module-bhashini-translation.html">bhashini-translation</a></li><li><a href="module-config.html">config</a></li><li><a href="module-payload.html">payload</a><ul class='methods'><li data-type='method'><a href="module-payload.html#.asr_nmt_payload">asr_nmt_payload</a></li><li data-type='method'><a href="module-payload.html#.asr_nmt_tts_payload">asr_nmt_tts_payload</a></li><li data-type='method'><a href="module-payload.html#.asr_payload">asr_payload</a></li><li data-type='method'><a href="module-payload.html#.nmt_payload">nmt_payload</a></li><li data-type='method'><a href="module-payload.html#.nmt_tts_payload">nmt_tts_payload</a></li><li data-type='method'><a href="module-payload.html#.tts_payload">tts_payload</a></li><li data-type='method'><a href="module-payload.html#~getTtsPipeline">getTtsPipeline</a></li><li data-type='method'><a href="module-payload.html#~input_base64">input_base64</a></li><li data-type='method'><a href="module-payload.html#~input_text">input_text</a></li></ul></li><li><a href="module-pipelineConfig.html">pipelineConfig</a><ul class='methods'><li data-type='method'><a href="module-pipelineConfig.html#~pipelineConfig">pipelineConfig</a></li></ul></li></ul><h3>Externals</h3><ul><li><a href="external-Bhashini_API.html">Bhashini_API</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-bhashini-translation-bhashini.html">bhashini</a></li></ul><h3>Global</h3><ul><li><a href="global.html#auth">auth</a></li><li><a href="global.html#getTasktypeconfig">getTasktypeconfig</a></li><li><a href="global.html#getaudioUri">getaudioUri</a></li><li><a href="global.html#headers">headers</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/nmt+tts.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module Task-Type
+ *  @description This section showcases various functions in the npm library, each catering to distinct translation tasks, accompanied by illustrative usage examples.
+ * 
+ */
+import BaseApi from "./utils/baseApi.js";
+import { nmt_tts_payload } from "../config/payload.js";
+import getaudioUri from "./utils/audioUri.js";
+
+const api = new BaseApi
+/**
+ * NMT-TTS (Neural Machine Translation - Text-to-Speech) function for translating text and generating speech.
+ * This function performs NMT and TTS to translate text and generate speech in the target language.
+ *
+ * @async
+ * @function
+ * @param {string} sourceLang - The source language of the text.
+ * @param {string} targetLang - The target language for translation and speech generation.
+ * @param {string} sourceText - The text to be translated and synthesized into speech.
+ * @param {string} gender - The gender of the generated speech voice. Default is female generally.
+ * @returns {Promise&lt;string>} The audio URI containing the synthesized speech in the target language.
+ *
+ * @throws {Error} If there's an issue with the API request or response.
+ *
+ * @example
+ * import bhashini from 'bhashini-translation';
+ *
+ * // Call the NMT-TTS function
+ * const audioUri = await bhashini.nmt_tts('en', 'fr', 'Hello, how are you?', 'female');
+ * audioElement.src = audioUri;
+ */
+async function nmt_tts(sourceLang, targetLang, sourceText, gender) {
+
+
+    const payload = await nmt_tts_payload(sourceLang, targetLang, sourceText, gender)
+
+    try {
+        const res = await api.post(payload);
+        const response = [
+            res.data.pipelineResponse[0].output[0].source,  // sourceText  [0]
+            res.data.pipelineResponse[0].output[0].target, // translated text  [1]
+            res.data.pipelineResponse[1].audio[0].audioContent // translated audio  [2]
+        ]
+        const base64Sound = response[2]
+        return getaudioUri(base64Sound)
+
+    } catch (error) {
+        console.log('error in response', error)
+    }
+
+}
+
+export default nmt_tts;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Aug 21 2023 12:55:05 GMT+0530 (India Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

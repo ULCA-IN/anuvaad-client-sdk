@@ -1,3 +1,12 @@
+/**
+ * Get configuration objects for different translation task types.
+ * These configurations are used within the pipelineConfig module to set up translation tasks.
+ *
+ * @function
+ * @param {string} srcLang - The source language for translation.
+ * @param {string} [targetLang] - The target language for translation (only used for 'translation' task type).
+ * @returns {Object[]} An array of configuration objects for translation task type (asr, translation, tts).
+ */
 const getTasktypeconfig = (srcLang, targetLang) => {
     return [
         {

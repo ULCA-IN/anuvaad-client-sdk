@@ -1,8 +1,28 @@
+/**
+ * Module for dynamically configuring translation pipeline tasks using the provided task type and language settings.
+ * This module constructs and sends a POST request to retrieve pipeline configurations from the server.
+ * The retrieved configurations are then utilized to generate appropriate payloads for various translation tasks.
+ *
+ * @module pipelineConfig
+ */
 import axios from "axios";
 import { getModelurl } from "./config.js";
 import { headers } from "./verification.js";
 import getTasktypeconfig from "./tasktypeConfig.js"
 
+
+/**
+ * Asynchronously fetches and constructs pipeline configurations for translation tasks based on the specified task type and language settings.
+ * This function sends a POST request to the server to retrieve the necessary configurations for the given task type and language.
+ *
+ * @async
+ * @function
+ * @param {string} taskType - The type of translation task (e.g., 'asr', 'translation', 'tts').
+ * @param {string} srcLang - The source language for translation.
+ * @param {string} [targetLang] - The target language for translation (only used for 'translation' task type).
+ * @returns {Promise<Object|string>} A Promise that resolves to the pipeline configuration object or an error message.
+ * @throws {Error} If there's an issue with the POST request or response.
+ */
 const pipelineConfig = async (taskType, srcLang, targetLang) => {
     try {
 

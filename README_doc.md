@@ -34,7 +34,7 @@ import bhashini from 'bhashini-translation'
  ```
 4. Now you are ready to use the features [I will add example here later]
 
-## get authentication details
+## <a id="get-authentication-details"></a> get authentication details
 Signup [here](https://bhashini.gov.in/ulca/user/register) to get authentication details  
     - Step 1: Fill out the registration form.
    - Step 2: Perform email authentication to enable login functionality
@@ -50,6 +50,7 @@ Signup [here](https://bhashini.gov.in/ulca/user/register) to get authentication 
 ```plaintext
 bhashini-translation-library/
 ├── package.json
+├── jsdoc.json
 ├── index.js
 ├── README.md
 ├── configs/
@@ -73,6 +74,7 @@ bhashini-translation-library/
 ## Root Directory:
 
 - **`package.json`**: Contains metadata and configuration for npm library, containing  "name": "bhashini-translation" 
+- **`jsdoc.json`**: This project uses JSDoc to generate documentation for the codebase. This file specifies various settings that control how the documentation is generated.
 - **`index.js`**: The main entry point for your library, where all functionalities are exported.
 
 ## Configuration Folder:
@@ -106,7 +108,7 @@ bhashini-translation-library/
 All functions in Bhashini return promises, so it is important to handle the promise-based output for proper asynchronous handling and retrieval of results.  
 
 # How to use functionality:  
-## ASR: Automatic Speech Recognition
+## <a id="asr-automatic-speech-recognition"></a> ASR: Automatic Speech Recognition
 **converts spoken language into written text**  
 The ASR interface provides methods to convert spoken language into text and is ideal for applications that require voice-to-text conversion.  
 **input**: source language, audioContent in base64 format  
@@ -115,7 +117,7 @@ The ASR interface provides methods to convert spoken language into text and is i
 bhashini.asr('sourceLang',"Base64")
 ```
 
-## NMT: Neural Machine Translation
+## <a id="nmt-neural-machine-translation"></a> NMT: Neural Machine Translation
 **translate text from one language to another indic language**   
 The NMT interface provides methods to translate text from one language to another using advanced neural network models for high-quality translations.  
 **input**: source language, target language, Text  
@@ -123,7 +125,7 @@ The NMT interface provides methods to translate text from one language to anothe
 ```js
 bhashini.nmt('sourceLang',"targetLang", "Text")
 ```
-## TTS: Text to Speech
+## <a id="tts-text-to-speech"></a> TTS: Text to Speech
 **converts written text into spoken words**   
 The TTS interface allows users to convert text into natural-sounding speech with the option to choose different voices, making it useful for applications that require generating speech output.  
 - If gender is not passed, the default option will be used.     
@@ -133,7 +135,7 @@ The TTS interface allows users to convert text into natural-sounding speech with
 ```js
 bhashini.tts('sourceLang',"Text", "gender")
 ```
-## ASR + NMT: Speech to Text Translation
+## <a id="asr-nmt-speech-to-text-translation"></a> ASR + NMT: Speech to Text Translation
  **speech-to-text transcription in the target language**   
  This interface offers a seamless integration of speech recognition and translation, allowing users to transcribe spoken language and directly translate it.   
 **input**: source language,target language, audioContent in base64 format      
@@ -141,7 +143,7 @@ bhashini.tts('sourceLang',"Text", "gender")
 ```js
 bhashini.asr_nmt('sourceLang', "targetLang", "Base64")
 ```
-## NMT + TTS: Text Translation to Speech
+## <a id="nmt-tts-text-translation-to-speech"></a> NMT + TTS: Text Translation to Speech
 **Translates written text to another language and generates audio content in base64**  
 This interface enables users to translate text and then convert it to speech with the option to choose different voices,, making it suitable for applications that require translated speech output. 
 - If gender is not passed, the default option will be used.    
@@ -151,7 +153,7 @@ This interface enables users to translate text and then convert it to speech wit
 ```js
 bhashini.nmt_tts('sourceLang', "targetLang", "Text", "gender")
 ```
-## ASR + NMT + TTS: Speech to Speech Translation
+## <a id="asr-nmt-tts-speech-to-speech-translation"></a> ASR + NMT + TTS: Speech to Speech Translation
 **Converts spoken language to another Indic spoken language**    
 This comprehensive interface provides the ability to perform speech recognition, translation, and text-to-speech conversion in one call supporting voice selection, catering to complex language processing needs.   
 - If gender is not passed, the default option will be used.    

@@ -1,0 +1,41 @@
+{
+    "plugins": [
+        "plugins/markdown"
+    ],
+    "source": {
+        "include": [
+            "./src",
+            "./config",
+            "index.js"
+        ],
+        "exclude": [
+            "./node_modules"
+        ],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "sourceType": "module",
+    "verbose": true,
+    "pedantic": true,
+    "linenums": true,
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": [
+            "jsdoc",
+            "closure"
+        ]
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "destination": "./docs",
+        "recurse": true,
+        "template": "node_modules/docdash",
+        "readme": "./README_doc.md",
+        "markdown": {
+            "idInHeadings": true
+        }
+    }
+}

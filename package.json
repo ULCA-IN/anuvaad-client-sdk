@@ -1,0 +1,29 @@
+{
+  "name": "bhashini-translation",
+  "version": "1.0.0",
+  "description": "Demonstration of the Anuvaad(Document Translation Platform) Client SDK which can leverage the Bhashini(ULCA) APIs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "jsdoc": "jsdoc -c jsdoc.json "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stupiddint/anuvaad-client-sdk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/stupiddint/anuvaad-client-sdk/issues"
+  },
+  "homepage": "https://github.com/stupiddint/anuvaad-client-sdk#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "docdash": "^2.0.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  }
+}

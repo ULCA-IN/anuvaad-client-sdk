@@ -14,7 +14,7 @@ const api = new BaseApi;
  * @async
  * @function
  * @param {string} sourceLang - The source language of the audio.
- * @param {string} base64 - The base64-encoded audio data.
+ * @param {string} base64 - The base64-encoded audio data in .wav format.
  * @returns {Promise<string>} The recognized text from the audio.
  *
  * @throws {Error} If there's an issue with the API request or response.

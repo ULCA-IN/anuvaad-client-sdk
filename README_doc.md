@@ -111,7 +111,7 @@ All functions in Bhashini return promises, so it is important to handle the prom
 ## <a id="asr-automatic-speech-recognition"></a> ASR: Automatic Speech Recognition
 **converts spoken language into written text**  
 The ASR interface provides methods to convert spoken language into text and is ideal for applications that require voice-to-text conversion.  
-**input**: source language, audioContent in base64 format  
+**input**: source language, Base64-encoded audio in .wav format 
 **output**: Text
 ```js
 bhashini.asr('sourceLang',"Base64")
@@ -131,14 +131,14 @@ The TTS interface allows users to convert text into natural-sounding speech with
 - If gender is not passed, the default option will be used.     
 
 **input**: source language, Text, gender (male or female)  
-**output**: Audio content in Base64
+**output**: Audio URI
 ```js
 bhashini.tts('sourceLang',"Text", "gender")
 ```
 ## <a id="asr-nmt-speech-to-text-translation"></a> ASR + NMT: Speech to Text Translation
  **speech-to-text transcription in the target language**   
  This interface offers a seamless integration of speech recognition and translation, allowing users to transcribe spoken language and directly translate it.   
-**input**: source language,target language, audioContent in base64 format      
+**input**: source language,target language, Base64-encoded audio in .wav format      
 **output**: Translated text
 ```js
 bhashini.asr_nmt('sourceLang', "targetLang", "Base64")
@@ -149,7 +149,7 @@ This interface enables users to translate text and then convert it to speech wit
 - If gender is not passed, the default option will be used.    
       
 **input**: source language,targetLang, Text, gender (male or female)  
-**output**: translated text
+**output**: Audio URI of translated text
 ```js
 bhashini.nmt_tts('sourceLang', "targetLang", "Text", "gender")
 ```
@@ -158,8 +158,8 @@ bhashini.nmt_tts('sourceLang', "targetLang", "Text", "gender")
 This comprehensive interface provides the ability to perform speech recognition, translation, and text-to-speech conversion in one call supporting voice selection, catering to complex language processing needs.   
 - If gender is not passed, the default option will be used.    
   
-**input**: source language, target language, audioContent in base64 format, gender (male or female)   
-**output**: audio content in base64
+**input**: source language, target language, Base64-encoded audio in .wav format, gender (male or female)   
+**output**: Audio Uri
 ```js
 bhashini.asr_nmt_tts('sourceLang', "targetLang", "Base64", "gender")
 ```
